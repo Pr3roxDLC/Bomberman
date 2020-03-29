@@ -16,6 +16,7 @@ public class GUI extends JFrame implements Runnable {
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	TileRenderer tr = new TileRenderer();
 	PlayerRenderer pr = new PlayerRenderer();
+	game.PlayerMover pm = new game.PlayerMover();
 	int currentFrame = 0;
 	private Image dbImage;
 	private Graphics dbg;
@@ -37,7 +38,7 @@ public class GUI extends JFrame implements Runnable {
 		pr.initPlayer();
 		while(true) {
 
-
+			pm.movePlayer();
 			repaint();
 			//System.out.println("[Frame]: "+ currentFrame++);
 			try {
@@ -64,7 +65,7 @@ public class GUI extends JFrame implements Runnable {
 		}
 
 		//Draw Player --- Layer 1
-		dbg.drawImage(pr.getPlayerTile(), pr.getPlayerPosX(), pr.getPlayerPosY(), null);
+		dbg.drawImage(pr.getPlayerTile(), pm.getPlayerPosX(), pm.getPlayerPosY(), null);
 
 		//Draw Enemies --- Layer 2
 
@@ -97,6 +98,7 @@ public class GUI extends JFrame implements Runnable {
 
 		setContentPane(contentPane);
 		setVisible(true);
+		addKeyListener(pm);
 	}
 
 }
