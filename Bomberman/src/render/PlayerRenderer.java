@@ -11,24 +11,45 @@ public class PlayerRenderer {
 	BufferedImage player = null;
 	int playerPosX, playerPosY = 0;
 	int playerSpeed = 1;
+	boolean visible = true;
 	
 	public void initPlayer() {
 		
-		
+		//Load the Player Tile into Memory
 		try {
 		    player = ImageIO.read(new File("C:\\Users\\Tim\\Desktop\\Dev2.png"));
+		    
+		    System.out.println("[Player Renderer]: Loaded Player Tile");
 		} catch (IOException e) {
 		}
 		
 		
 	}
 	
+	//Return The Visibility of the Player
+	public boolean getVisible() {
+		
+		return visible;
+		
+	}
 	
+	//Set the visibility of the Player
+	public void setVisible(boolean bool) {
+		
+		visible = bool;
+		
+	}
 	
-	
-	
+	//Return the player Tile as a BufferedImage
 	public BufferedImage getPlayerTile() {
+		
+		if(visible) {
 		return player;
+	}else {
+		//Return nothing if visible is set to false
+		return null;
+		
+	}
 	}
 
 

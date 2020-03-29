@@ -28,6 +28,9 @@ public class TileRenderer {
 		BufferedImage devTile1 = null;
 		try {
 		    devTile1 = ImageIO.read(new File("C:\\Users\\Tim\\Desktop\\Dev.png"));
+		    
+		    System.out.println("[Tile Remderer]: Loaded DevTile1");
+		    
 		} catch (IOException e) {
 		}
 		tileSet[0] = devTile1;
@@ -36,6 +39,7 @@ public class TileRenderer {
 		BufferedImage devTile2 = null;
 		try {
 		    devTile2 = ImageIO.read(new File("C:\\Users\\Tim\\Desktop\\Dev2.png"));
+		    System.out.println("[Tile Remderer]: Loaded DevTile2");
 		} catch (IOException e) {
 		}
 		tileSet[1] = devTile2;

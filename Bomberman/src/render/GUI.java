@@ -35,15 +35,12 @@ public class GUI extends JFrame implements Runnable {
 
 		tr.initTiles();
 		pr.initPlayer();
-		
 		while(true) {
 
 
 			repaint();
-			System.out.println(currentFrame++);
+			//System.out.println("[Frame]: "+ currentFrame++);
 			try {
-				
-			
 				Thread.sleep(31);
 			}catch(InterruptedException e ) {
 				e.printStackTrace();
@@ -54,29 +51,31 @@ public class GUI extends JFrame implements Runnable {
 	}
 
 	public void paint(Graphics g) {
-		
 		if(dbImage == null) {
-			
 			dbImage = createImage(this.getSize().width, this.getSize().height);
 			dbg = dbImage.getGraphics();
-			
 		}
-	//Draw Each Tile at location from the tileIDArray
+		//Draw Each Tile at location from the tileIDArray --- Layer 0
 		for(int i = 0; i < 30; i++) {
 			for(int j = 0;  j < 16; j++) {
 				//System.out.println("J: " + j + " i: " + i);
 				dbg.drawImage(tr.getTile(tr.tileIDArray[i][j]), (i*64), (j*64), null);
-			
-				
 			}
 		}
-		
-		
-		//Draw Player
+
+		//Draw Player --- Layer 1
 		dbg.drawImage(pr.getPlayerTile(), pr.getPlayerPosX(), pr.getPlayerPosY(), null);
-		
+
+		//Draw Enemies --- Layer 2
+
+		//Draw Power-Ups --- Layer 3
+
+		//Draw Effects --- Layer 4
+
+		//Draw HUD --- Layer 5
+
+		//Draw Pre Buffered Image onto Screen, all layers combined
 		g.drawImage(dbImage, 8, 32, null);
-		
 	}
 
 
