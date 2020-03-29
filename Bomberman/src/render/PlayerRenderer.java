@@ -1,5 +1,6 @@
 package render;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,16 +13,15 @@ public class PlayerRenderer {
 	int playerPosX, playerPosY = 0;
 	int playerSpeed = 1;
 	boolean visible = true;
+	Image i = null;
+	
 	
 	public void initPlayer() {
 		
-		//Load the Player Tile into Memory
-		try {
-		    player = ImageIO.read(new File("C:\\Users\\Tim\\Desktop\\Dev2.png"));
-		    
-		    System.out.println("[Player Renderer]: Loaded Player Tile");
-		} catch (IOException e) {
-		}
+		player = ResourceLoader.ladeBild("/Images/Dev2.png");
+  
+		
+		System.out.println("[Player Renderer]: Loaded Player Tile");
 		
 		
 	}
