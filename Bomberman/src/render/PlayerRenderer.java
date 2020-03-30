@@ -17,13 +17,15 @@ public class PlayerRenderer {
 	
 	
 	public void initPlayer() {
-		
-		player = ResourceLoader.ladeBild("/res/Dev2.png");
+		System.out.println("[Player Renderer]: Started Init Sequence");
+
+		player = ResourceLoader.ladeBild("/Dev2.png");
   
 		
 		System.out.println("[Player Renderer]: Loaded Player Tile");
 		
-		
+		System.out.println("[Player Renderer]: Completed Init Sequence");
+
 	}
 	
 	//Return The Visibility of the Player

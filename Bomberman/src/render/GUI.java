@@ -20,6 +20,7 @@ public class GUI extends JFrame implements Runnable {
 	PlayerRenderer pr = new PlayerRenderer();
 	game.PlayerMover pm = new game.PlayerMover();
 	HudRenderer hr = new HudRenderer();
+	AnimatedTileRenderer atr = new AnimatedTileRenderer();
 	int currentFrame = 0;
 	private Image dbImage;
 	private Graphics dbg;
@@ -41,9 +42,11 @@ public class GUI extends JFrame implements Runnable {
 		tr.initTiles();
 		pr.initPlayer();
 		hr.initHud();
+		atr.initATR();
 		while(true) {
 
 			pm.movePlayer();
+			atr.incGameFrame();
 			repaint();
 			//System.out.println("[Frame]: "+ currentFrame++);
 			try {
@@ -84,7 +87,7 @@ public class GUI extends JFrame implements Runnable {
 			for(int j = 0; j < 3; j++) {
 				
 				dbg.drawImage(hr.getHudTile(), (i * 64), (j * 64), null);
-				System.out.println("Hud Drawn");
+			
 			}
 			
 		}
@@ -105,8 +108,6 @@ public class GUI extends JFrame implements Runnable {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 
-		//Uncommentate before Final Build --- decorated for easier working.
-		//setUndecorated(true);
 
 
 		contentPane = new JPanel();
