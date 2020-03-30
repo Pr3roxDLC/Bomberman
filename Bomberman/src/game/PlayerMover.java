@@ -12,62 +12,62 @@ public class PlayerMover implements KeyListener{
 	int stepCount = 0;
 	int direction = 1;
 
+	// no movement, up, left, down, right
+	int executingDirection = 0;
+	// current steps between tiles
+	int stepCounter = 0;
+
+	/*
+	 * Spieler soll sich tile für tile bewegen
+	 * Wird bspw d gedrückt, läuft er ein ganzes Teil nach recht, egal was danach gedrückt wird
+	 */
 	public void movePlayer() {
-		if(stepCount == 0) {
-			if (bDown == true) {
-				direction = 1;
-				stepCount = stepCount + 1;
-				playerPosY = playerPosY+playerSpeed;
-
+		// accept new input
+		if (executingDirection == 0) {
+			if (bUp) {
+				executingDirection = 1;
 			}
-			if (bUp == true) {
-				direction = 2;
-				stepCount = stepCount + 1;
-				playerPosY = playerPosY-playerSpeed;
-
-
+			if (bLeft) {
+				executingDirection = 2;
 			}
-			if (bLeft == true) {
-				direction = 3;
-				stepCount = stepCount + 1;
-				playerPosX = playerPosX-playerSpeed;
-
+			if (bDown) {
+				executingDirection = 3;
 			}
-			if (bRight == true) {
-				direction = 4;
-				stepCount = stepCount + 1;
-				playerPosX = playerPosX+playerSpeed;
-
+			if (bRight) {
+				executingDirection = 4;
 			}
-		}else {
-			switch(direction ) {
+		}
 
-			case 1: 
-				stepCount = stepCount + 1;
-				playerPosY = playerPosY+playerSpeed;
+		// move player
+		if (executingDirection != 0) {
+			switch (executingDirection) {
+			case 1:
+				playerPosY -= playerSpeed;
 				break;
-
 			case 2:
-				stepCount = stepCount + 1;
-				playerPosY = playerPosY-playerSpeed;
+				playerPosX -= playerSpeed;
 				break;
-
 			case 3:
-				stepCount = stepCount + 1;
-				playerPosX = playerPosX-playerSpeed;
+				playerPosY += playerSpeed;
 				break;
-
 			case 4:
-				stepCount = stepCount + 1;
-				playerPosX = playerPosX+playerSpeed;
+				playerPosX += playerSpeed;
+				break;
+			default:
 				break;
 			}
+
+			// increase step counter
+			stepCounter++;
 		}
 
-		if(stepCount == 8) {
-			stepCount = 0;
+		// reset executing direction if neccesary
+		if (stepCounter == 8) {
+			stepCounter = 0;
+			executingDirection = 0;
 		}
-	}
+	}	
+
 	public void keyPressed(KeyEvent e) {
 
 		if (e.getKeyCode()==KeyEvent.VK_DOWN) {		
@@ -82,9 +82,6 @@ public class PlayerMover implements KeyListener{
 		if (e.getKeyCode()==KeyEvent.VK_LEFT) {
 			bLeft = true;
 		}	
-		if(stepCount == 7) {
-			stepCount = 0;
-		}
 	}
 
 
