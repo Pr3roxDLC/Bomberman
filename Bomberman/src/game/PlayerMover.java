@@ -16,7 +16,7 @@ public class PlayerMover implements KeyListener{
 	int executingDirection = 0;
 	// current steps between tiles
 	int stepCounter = 0;
-
+	//skrt
 	/*
 	 * Spieler soll sich tile für tile bewegen
 	 * Wird bspw d gedrückt, läuft er ein ganzes Teil nach recht, egal was danach gedrückt wird
