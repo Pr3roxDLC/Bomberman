@@ -1,6 +1,7 @@
 package render;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -40,7 +41,6 @@ public class GUI extends JFrame implements Runnable {
 		tr.initTiles();
 		pr.initPlayer();
 		hr.initHud();
-		
 		while(true) {
 
 			pm.movePlayer();
@@ -88,6 +88,9 @@ public class GUI extends JFrame implements Runnable {
 			}
 			
 		}
+		
+		dbg.setFont(new Font("Stencil", 1, 75));
+		dbg.drawString("Score: " + Integer.toString(hr.getScore()), 20, 120);
 
 		//Draw Pre Buffered Image onto Screen, all layers combined
 		g.drawImage(dbImage, 8, 32, null);
