@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -17,9 +18,11 @@ public class GUI extends JFrame implements Runnable {
 	TileRenderer tr = new TileRenderer();
 	PlayerRenderer pr = new PlayerRenderer();
 	game.PlayerMover pm = new game.PlayerMover();
+	HudRenderer hr = new HudRenderer();
 	int currentFrame = 0;
 	private Image dbImage;
 	private Graphics dbg;
+	
 
 
 
@@ -36,6 +39,8 @@ public class GUI extends JFrame implements Runnable {
 
 		tr.initTiles();
 		pr.initPlayer();
+		hr.initHud();
+		
 		while(true) {
 
 			pm.movePlayer();
@@ -74,6 +79,15 @@ public class GUI extends JFrame implements Runnable {
 		//Draw Effects --- Layer 4
 
 		//Draw HUD --- Layer 5
+		for(int i = 0; i < 30; i++) {
+			
+			for(int j = 0; j < 3; j++) {
+				
+				dbg.drawImage(hr.getHudTile(), (i * 64), (j * 64), null);
+				System.out.println("Hud Drawn");
+			}
+			
+		}
 
 		//Draw Pre Buffered Image onto Screen, all layers combined
 		g.drawImage(dbImage, 8, 32, null);

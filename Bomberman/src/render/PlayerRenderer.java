@@ -18,7 +18,7 @@ public class PlayerRenderer {
 	
 	public void initPlayer() {
 		
-		player = ResourceLoader.ladeBild("/Images/Dev2.png");
+		player = ResourceLoader.ladeBild("/res/Dev2.png");
   
 		
 		System.out.println("[Player Renderer]: Loaded Player Tile");

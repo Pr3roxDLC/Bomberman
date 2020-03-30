@@ -28,7 +28,7 @@ public class TileRenderer {
 
 		// Load devTile1 into Memory
 		BufferedImage devTile1 = null;
-		devTile1 = ResourceLoader.ladeBild("/Images/Dev.png");
+		devTile1 = ResourceLoader.ladeBild("/res/Dev.png");
 		tileSet[0] = devTile1;
 		System.out.println("[Tile Remderer]: Loaded DevTile1");
 		
@@ -37,7 +37,7 @@ public class TileRenderer {
 		
 		
 		BufferedImage devTile2 = null;
-		devTile2 = ResourceLoader.ladeBild("/Images/Dev2.png");
+		devTile2 = ResourceLoader.ladeBild("/res/Dev2.png");
 		System.out.println("[Tile Remderer]: Loaded DevTile2");
 		tileSet[1] = devTile2;
 
