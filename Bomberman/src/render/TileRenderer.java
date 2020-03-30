@@ -21,7 +21,11 @@ public class TileRenderer {
 
 	}
 
+	public int[][] getTileIDArray(){
+		return tileIDArray;
+	}
 
+	
 
 
 	public void initTiles() {

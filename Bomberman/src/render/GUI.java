@@ -24,6 +24,7 @@ public class GUI extends JFrame implements Runnable {
 	int currentFrame = 0;
 	private Image dbImage;
 	private Graphics dbg;
+
 	
 
 
@@ -47,6 +48,7 @@ public class GUI extends JFrame implements Runnable {
 
 			pm.movePlayer();
 			atr.incGameFrame();
+			
 			repaint();
 			//System.out.println("[Frame]: "+ currentFrame++);
 			try {
@@ -80,7 +82,7 @@ public class GUI extends JFrame implements Runnable {
 		//Draw Power-Ups --- Layer 3
 
 		//Draw Effects --- Layer 4
-
+		
 		//Draw HUD --- Layer 5
 		for(int i = 0; i < 30; i++) {
 			
