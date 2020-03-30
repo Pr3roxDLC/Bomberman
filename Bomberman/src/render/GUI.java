@@ -21,6 +21,7 @@ public class GUI extends JFrame implements Runnable {
 	game.PlayerMover pm = new game.PlayerMover();
 	HudRenderer hr = new HudRenderer();
 	AnimatedTileRenderer atr = new AnimatedTileRenderer();
+	game.MapManager mm = new game.MapManager();
 	int currentFrame = 0;
 	private Image dbImage;
 	private Graphics dbg;
@@ -44,6 +45,8 @@ public class GUI extends JFrame implements Runnable {
 		pr.initPlayer();
 		hr.initHud();
 		atr.initATR();
+		mm.initWalls();
+		tr.setTileIDArray(mm.getTileIDArray());
 		while(true) {
 
 			pm.movePlayer();

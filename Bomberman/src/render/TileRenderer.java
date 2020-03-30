@@ -16,11 +16,17 @@ public class TileRenderer {
 
 
 	public static void main() {
-
-
-
 	}
 
+	public void setTileIDArray(int[][] tileIDArray) {
+		this.tileIDArray = tileIDArray;
+	}
+	
+	
+	public void setTileID(int xPos, int yPos, int ID) {
+		tileIDArray[xPos][yPos] = ID;
+	}
+		
 	public int[][] getTileIDArray(){
 		return tileIDArray;
 	}
@@ -38,6 +44,10 @@ public class TileRenderer {
 		tileSet[0] = devTile1;
 		System.out.println("[Tile Remderer]: Loaded DevTile1");
 		
+		//Load Wall into memory
+		BufferedImage devWallTile = null;
+		devWallTile = ResourceLoader.ladeBild("/DevWall.png");
+		tileSet[2] = devWallTile;
 
 		//Load devTile2 into Memory
 		
