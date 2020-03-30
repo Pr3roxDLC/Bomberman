@@ -8,50 +8,51 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class PlayerRenderer {
-	
+
 	BufferedImage player = null;
-	int playerPosX, playerPosY = 0;
+	int playerPosX = (1*64); 
+	int playerPosY = (2*64);
 	int playerSpeed = 1;
 	boolean visible = true;
 	Image i = null;
-	
-	
+
+
 	public void initPlayer() {
 		System.out.println("[Player Renderer]: Started Init Sequence");
 
 		player = ResourceLoader.ladeBild("/Dev2.png");
-  
-		
+
+
 		System.out.println("[Player Renderer]: Loaded Player Tile");
-		
+
 		System.out.println("[Player Renderer]: Completed Init Sequence");
 
 	}
-	
+
 	//Return The Visibility of the Player
 	public boolean getVisible() {
-		
+
 		return visible;
-		
+
 	}
-	
+
 	//Set the visibility of the Player
 	public void setVisible(boolean bool) {
-		
+
 		visible = bool;
-		
+
 	}
-	
+
 	//Return the player Tile as a BufferedImage
 	public BufferedImage getPlayerTile() {
-		
+
 		if(visible) {
-		return player;
-	}else {
-		//Return nothing if visible is set to false
-		return null;
-		
-	}
+			return player;
+		}else {
+			//Return nothing if visible is set to false
+			return null;
+
+		}
 	}
 
 
@@ -109,32 +110,6 @@ public class PlayerRenderer {
 	public void setPlayerSpeed(int playerSpeed) {
 		this.playerSpeed = playerSpeed;
 	}
-
-
-
-
-
-	public void movePlayer(String direction) {
-		
-		
-		switch(direction) {
-		case "UP":
-			playerPosY = playerPosY + playerSpeed;
-			break;
-		case "DOWN":
-			playerPosY = playerPosY - playerSpeed;
-			break;
-		case "LEFT":
-			playerPosX = playerPosX - playerSpeed;
-			break;
-		case "RIGHT":
-			playerPosX = playerPosX + playerSpeed;
-			break;
-		
-		
-		
-		}
-		
-	}
-
 }
+
+

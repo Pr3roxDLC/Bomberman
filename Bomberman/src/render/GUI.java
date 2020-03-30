@@ -40,13 +40,14 @@ public class GUI extends JFrame implements Runnable {
 	}
 
 	public void run() {
-
+		
 		tr.initTiles();
 		pr.initPlayer();
 		hr.initHud();
 		atr.initATR();
 		mm.initWalls();
 		tr.setTileIDArray(mm.getTileIDArray());
+		pm.setTileIDArray(tr.getTileIDArray());
 		while(true) {
 
 			pm.movePlayer();
@@ -87,15 +88,17 @@ public class GUI extends JFrame implements Runnable {
 		//Draw Effects --- Layer 4
 		
 		//Draw HUD --- Layer 5
-		for(int i = 0; i < 30; i++) {
-			
-			for(int j = 0; j < 3; j++) {
-				
+		for(int i = 27; i < 30; i++) {
+			for(int j = 0; j < 16; j++) {
 				dbg.drawImage(hr.getHudTile(), (i * 64), (j * 64), null);
-			
 			}
-			
 		}
+		for (int i = 0; i<30; i++) {
+			dbg.drawImage(hr.getHudTile(), (i * 64), (0 * 64), null);
+		}
+		
+		
+		
 		
 		dbg.setFont(new Font("Stencil", 1, 75));
 		dbg.drawString("Score: " + Integer.toString(hr.getScore()), 20, 120);

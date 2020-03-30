@@ -5,13 +5,14 @@ import java.awt.event.KeyListener;
 
 public class PlayerMover implements KeyListener{
 
-	int playerPosX = 0;
-	int playerPosY = 0;
+	int playerPosX = (1*64);
+	int playerPosY = (2*64);
 	int playerSpeed = 8;
 	boolean bDown,bUp,bLeft,bRight = false;
 	int stepCount = 0;
 	int direction = 1;
-
+	boolean collision = false;
+	public int[][] tileIDArray = new int[30][16]; 
 	// no movement, up, left, down, right
 	int executingDirection = 0;
 	// current steps between tiles
@@ -21,6 +22,57 @@ public class PlayerMover implements KeyListener{
 	 * Spieler soll sich tile für tile bewegen
 	 * Wird bspw d gedrückt, läuft er ein ganzes Teil nach recht, egal was danach gedrückt wird
 	 */
+
+	public int getTileID(int xPos, int yPos) {
+		return tileIDArray[xPos][yPos];
+	}
+
+	public void setTileIDArray(int[][] tileIDArray) {
+		this.tileIDArray = tileIDArray;
+	}
+
+	public boolean detectCollision() {
+		System.out.println("Collision check");
+		switch (executingDirection) {
+		case 0:
+			return false;
+		case 1:
+			System.out.println("Collision check Up");
+			if(tileIDArray[playerPosX/64][(playerPosY/64)+1] == 2) {
+				System.out.println("Collision detected Up");
+				executingDirection = 0;
+				return true;
+			}
+			break;
+		case 2:
+			System.out.println("Collision check Left");
+			if(tileIDArray[(playerPosX/64)-1][playerPosY/64] == 2) {
+				System.out.println("Collision detected Left");
+				executingDirection = 0;
+				return true;
+			}
+			break;
+		case 3:
+			System.out.println("Collision check Down");
+			if(tileIDArray[playerPosX/64][(playerPosY/64)+1] == 2) {
+				System.out.println("Collision detected Down");
+				executingDirection = 0;
+				return true;
+			}
+			break;
+		case 4:
+			System.out.println("Collision check Right");
+			if(tileIDArray[(playerPosX/64)+1][playerPosY/64] == 2) {
+				System.out.println("Collision detected Right");
+				executingDirection = 0;
+				return true;
+			}
+			break;
+		
+		}
+		return false;
+	}
+
 	public void movePlayer() {
 		// accept new input
 		if (executingDirection == 0) {
@@ -35,11 +87,13 @@ public class PlayerMover implements KeyListener{
 			}
 			if (bRight) {
 				executingDirection = 4;
-			}
+			}	
 		}
 
+		collision = detectCollision();
+
 		// move player
-		if (executingDirection != 0) {
+		if (executingDirection != 0 && collision == false) {
 			switch (executingDirection) {
 			case 1:
 				playerPosY -= playerSpeed;
@@ -63,13 +117,13 @@ public class PlayerMover implements KeyListener{
 
 		// reset executing direction if neccesary
 		if (stepCounter == 8) {
+			collision = false;
 			stepCounter = 0;
 			executingDirection = 0;
 		}
 	}	
 
 	public void keyPressed(KeyEvent e) {
-
 		if (e.getKeyCode()==KeyEvent.VK_DOWN) {		
 			bDown = true;
 		}

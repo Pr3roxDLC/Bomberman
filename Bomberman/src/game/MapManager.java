@@ -9,16 +9,15 @@ public class MapManager {
 		return tileIDArray;
 	}
 
-
 	public void initWalls() {
 		for (int i = 0; i<30; i++) {
-			tileIDArray[i][3] = 2;
+			tileIDArray[i][1] = 2;
 			tileIDArray[i][15] = 2;
 		}
 
 		for (int i = 0; i<15; i++) {
 			tileIDArray[0][i] = 2;
-			tileIDArray[29][i] = 2;
+			tileIDArray[26][i] = 2;
 		}
 
 		for (int i = 0; i<30; i++) {
@@ -29,26 +28,4 @@ public class MapManager {
 			}
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
