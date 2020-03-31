@@ -27,5 +27,6 @@ public class MapManager {
 				}
 			}
 		}
+		tileIDArray[2][5] = 0;
 	}
 }
