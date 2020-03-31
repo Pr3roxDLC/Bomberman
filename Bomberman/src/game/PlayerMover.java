@@ -10,7 +10,6 @@ public class PlayerMover implements KeyListener{
 	int playerSpeed = 8;
 	boolean bDown,bUp,bLeft,bRight = false;
 	int stepCount = 0;
-	int direction = 1;
 	boolean collision = false;
 	public int[][] tileIDArray = new int[30][16]; 
 	// no movement, up, left, down, right
@@ -18,8 +17,8 @@ public class PlayerMover implements KeyListener{
 	// current steps between tiles
 	int stepCounter = 0;
 	int collisionTileX, collisionTileY;
-	
-	
+
+
 	/*
 	 * Spieler soll sich tile für tile bewegen
 	 * Wird bspw d gedrückt, läuft er ein ganzes Teil nach recht, egal was danach gedrückt wird
@@ -34,54 +33,40 @@ public class PlayerMover implements KeyListener{
 	}
 
 	public boolean detectCollision() {
-		System.out.println("PlayerposX: "+playerPosX);
-		System.out.println("PlayerposY: "+playerPosY);
-		if(stepCount == 0) {
-			System.out.println("Collision check");
+		if((playerPosX % 64 == 0)&&(playerPosY % 64 == 0)) {
 			switch (executingDirection) {
 			case 0:
-				return false;
+				break;
 			case 1:
-				System.out.println("Collision check Up");
 				collisionTileX = playerPosX/64;
 				collisionTileY = (playerPosY/64)-1;
-				System.out.println("Looking at TileX: "+collisionTileX);
-				System.out.println("Looking at TileY: "+collisionTileY);
 				if(tileIDArray[collisionTileX][(collisionTileY)] == 2) {
-					System.out.println("Collision detected Up on frame: "+stepCounter);
 					executingDirection = 0;
 					return true;
 				}
-				break;
+				return false;
 			case 2:
-				System.out.println("Collision check Left");
 				if(tileIDArray[(playerPosX/64)-1][playerPosY/64] == 2) {
-					System.out.println("Collision detected Left");
 					executingDirection = 0;
 					return true;
 				}
-				break;
+				return false;
 			case 3:
-				System.out.println("Collision check Down");
 				if(tileIDArray[playerPosX/64][(playerPosY/64)+1] == 2) {
-					System.out.println("Collision detected Down");
 					executingDirection = 0;
 					return true;
 				}
-				break;
+				return false;
 			case 4:
-				System.out.println("Collision check Right");
 				if(tileIDArray[(playerPosX/64)+1][playerPosY/64] == 2) {
-					System.out.println("Collision detected Right");
 					executingDirection = 0;
 					return true;
 				}
-				break;
-
+				return false;
 			}
 			return false;
 		}
-		return collision;
+		return false;
 	}
 
 	public void movePlayer() {
@@ -100,11 +85,10 @@ public class PlayerMover implements KeyListener{
 				executingDirection = 4;
 			}	
 		}
-
+		//Check if player colliding with wall
 		collision = detectCollision();
-
 		// move player
-		if (executingDirection != 0 && collision == false) {
+		if (executingDirection != 0) {
 			switch (executingDirection) {
 			case 1:
 				playerPosY -= playerSpeed;
