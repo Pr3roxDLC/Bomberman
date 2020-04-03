@@ -2,10 +2,7 @@ package render;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 
 public class PlayerRenderer {
 
@@ -20,7 +17,7 @@ public class PlayerRenderer {
 	public void initPlayer() {
 		System.out.println("[Player Renderer]: Started Init Sequence");
 
-		player = ResourceLoader.ladeBild("/Player.png");
+		player = ResourceLoader.ladeBild("/anim/player/PlayerSpriteSouth2.png");
 
 
 		System.out.println("[Player Renderer]: Loaded Player Tile");

@@ -6,25 +6,29 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-import javax.imageio.ImageIO;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import jdk.internal.dynalink.beans.StaticClass;
+
 
 import java.awt.Color;
 
 public class GUI extends JFrame implements Runnable {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	TileRenderer tr = new TileRenderer();
 	PlayerRenderer pr = new PlayerRenderer();
 	game.PlayerMover pm = new game.PlayerMover();
 	HudRenderer hr = new HudRenderer();
-	
+	Misc.SecondCounter counter = new Misc.SecondCounter();
 	game.MapManager mm = new game.MapManager();
 	
 	int currentFrame = 0;
@@ -54,13 +58,16 @@ public class GUI extends JFrame implements Runnable {
 		tr.initTiles();
 		pr.initPlayer();
 		hr.initHud();
-
+		
+		
+		
 		mm.initWalls();
 		tr.setTileIDArray(mm.getTileIDArray());
 		pm.setTileIDArray(tr.getTileIDArray());
 		while(true) {
 			DevTile1.updateAnimation();
 			DevTile2.updateAnimation();
+			counter.updateCounter();
 			pm.movePlayer();
 			repaint();
 			//System.out.println("[Frame]: "+ currentFrame++);
@@ -91,7 +98,7 @@ public class GUI extends JFrame implements Runnable {
 		}
 
 		//Draw Player --- Layer 1
-		dbg.drawImage(DevTile1.getCurrentFrame(), pm.getPlayerPosX(), pm.getPlayerPosY(), null);
+		dbg.drawImage(pr.getPlayerTile(), pm.getPlayerPosX(), pm.getPlayerPosY(), null);
 
 		//Draw Enemies --- Layer 2
 
@@ -118,7 +125,8 @@ public class GUI extends JFrame implements Runnable {
 		
 		
 		dbg.setFont(new Font("Stencil", 1, 75));
-		dbg.drawString("Score: " + Integer.toString(hr.getScore()), 20, 56);
+		dbg.drawString("Score: " + Integer.toString(hr.getScore()), 64, 56);
+		dbg.drawString("Score: " + Integer.toString( 500 - counter.getTimeSinceGameHasStartedInSecs()), 960, 56);
 
 		//Draw Pre Buffered Image onto Screen, all layers combined
 		g.drawImage(dbImage, 8, 32, null);
