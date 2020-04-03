@@ -20,7 +20,7 @@ public class PlayerRenderer {
 	public void initPlayer() {
 		System.out.println("[Player Renderer]: Started Init Sequence");
 
-		player = ResourceLoader.ladeBild("/Dev2.png");
+		player = ResourceLoader.ladeBild("/Player.png");
 
 
 		System.out.println("[Player Renderer]: Loaded Player Tile");

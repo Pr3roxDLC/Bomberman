@@ -10,23 +10,33 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import jdk.internal.dynalink.beans.StaticClass;
+
 import java.awt.Color;
 
 public class GUI extends JFrame implements Runnable {
 
+	
 	private JPanel contentPane;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	TileRenderer tr = new TileRenderer();
 	PlayerRenderer pr = new PlayerRenderer();
 	game.PlayerMover pm = new game.PlayerMover();
 	HudRenderer hr = new HudRenderer();
-	AnimatedTileRenderer atr = new AnimatedTileRenderer();
+	
 	game.MapManager mm = new game.MapManager();
+	
 	int currentFrame = 0;
 	private Image dbImage;
 	private Graphics dbg;
-
 	
+	
+	//All Testing Objects, Variables, ... go here
+	public String[] DevAnimationArray = {"FlameTile1.png", "FlameTile2.png", "FlameTile3.png", "FlameTile4.png", "FlameTile5.png", "FlameTile6.png", "FlameTile7.png", "FlameTile8.png"};
+
+	AnimatedTile DevTile1 = new AnimatedTile(DevAnimationArray, 4);
+	AnimatedTile DevTile2 = new AnimatedTile(DevAnimationArray, 4);
 
 
 
@@ -44,15 +54,14 @@ public class GUI extends JFrame implements Runnable {
 		tr.initTiles();
 		pr.initPlayer();
 		hr.initHud();
-		atr.initATR();
+
 		mm.initWalls();
 		tr.setTileIDArray(mm.getTileIDArray());
 		pm.setTileIDArray(tr.getTileIDArray());
 		while(true) {
-
+			DevTile1.updateAnimation();
+			DevTile2.updateAnimation();
 			pm.movePlayer();
-			atr.incGameFrame();
-			
 			repaint();
 			//System.out.println("[Frame]: "+ currentFrame++);
 			try {
@@ -66,6 +75,9 @@ public class GUI extends JFrame implements Runnable {
 	}
 
 	public void paint(Graphics g) {
+		
+		if(!hr.getGamePaused()) {
+		
 		if(dbImage == null) {
 			dbImage = createImage(this.getSize().width, this.getSize().height);
 			dbg = dbImage.getGraphics();
@@ -79,13 +91,18 @@ public class GUI extends JFrame implements Runnable {
 		}
 
 		//Draw Player --- Layer 1
-		dbg.drawImage(pr.getPlayerTile(), pm.getPlayerPosX(), pm.getPlayerPosY(), null);
+		dbg.drawImage(DevTile1.getCurrentFrame(), pm.getPlayerPosX(), pm.getPlayerPosY(), null);
 
 		//Draw Enemies --- Layer 2
 
 		//Draw Power-Ups --- Layer 3
 
 		//Draw Effects --- Layer 4
+		
+
+		dbg.drawImage(DevTile2.getCurrentFrame(), 1664, 128, null);	
+		dbg.drawImage(DevTile1.getCurrentFrame(), 1664, 192, null);
+
 		
 		//Draw HUD --- Layer 5
 		for(int i = 27; i < 30; i++) {
@@ -101,11 +118,13 @@ public class GUI extends JFrame implements Runnable {
 		
 		
 		dbg.setFont(new Font("Stencil", 1, 75));
-		dbg.drawString("Score: " + Integer.toString(hr.getScore()), 20, 120);
+		dbg.drawString("Score: " + Integer.toString(hr.getScore()), 20, 56);
 
 		//Draw Pre Buffered Image onto Screen, all layers combined
 		g.drawImage(dbImage, 8, 32, null);
-	}
+	
+		}
+		}
 
 
 	/**

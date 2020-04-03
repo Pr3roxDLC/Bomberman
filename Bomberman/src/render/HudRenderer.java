@@ -12,6 +12,7 @@ public class HudRenderer {
 	public int score = 0;
 	public Graphics gHud;
 	public Image completeHud = null;
+	public boolean gamePaused = false;
 
 	//Loads The Tile Used for the HUD/Score Area Background
 	public void initHud() {
@@ -35,6 +36,18 @@ public class HudRenderer {
 
 	}
 
+	public void setGamePaused(boolean gamePaused) {
+		
+		this.gamePaused = gamePaused;
+		
+	}
+	
+	public boolean getGamePaused() {
+		
+		return gamePaused;
+		
+	}
+	
 	public void setScore(int score) {
 
 		this.score = score;

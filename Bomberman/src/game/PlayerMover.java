@@ -32,6 +32,8 @@ public class PlayerMover implements KeyListener{
 		this.tileIDArray = tileIDArray;
 	}
 
+	
+	
 	public boolean detectCollision() {
 		if((playerPosX % 64 == 0)&&(playerPosY % 64 == 0)) {
 			switch (executingDirection) {
