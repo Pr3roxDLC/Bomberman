@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Random;
+
 public class MapManager {
 	//30 auf 12
 
@@ -7,6 +9,31 @@ public class MapManager {
 
 	public int[][] getTileIDArray() {
 		return tileIDArray;
+	}
+	
+	public void genCrates() {
+		
+		for(int i = 0; i < 30; i++) {
+			for(int k = 0; k < 16; k++) {
+				
+				if(tileIDArray[i][k] == 0) {
+					
+					int random = (int) (Math.random() * 10);
+					
+					if (random % 2 == 0) {
+						
+						tileIDArray[i][k] = 3;
+						
+					}
+					
+				}
+				
+			}
+			
+			
+		}
+		
+		
 	}
 
 	public void initWalls() {

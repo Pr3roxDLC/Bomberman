@@ -32,8 +32,12 @@ public class PlayerMover implements KeyListener{
 		this.tileIDArray = tileIDArray;
 	}
 
+	public int getplayerDirection() {
+		return executingDirection;
+		}
+
 	
-	
+
 	public boolean detectCollision() {
 		if((playerPosX % 64 == 0)&&(playerPosY % 64 == 0)) {
 			switch (executingDirection) {
@@ -42,25 +46,25 @@ public class PlayerMover implements KeyListener{
 			case 1:
 				collisionTileX = playerPosX/64;
 				collisionTileY = (playerPosY/64)-1;
-				if(tileIDArray[collisionTileX][(collisionTileY)] == 2) {
+				if(tileIDArray[collisionTileX][(collisionTileY)] == 2 || tileIDArray[collisionTileX][(collisionTileY)] == 3) {
 					executingDirection = 0;
 					return true;
 				}
 				return false;
 			case 2:
-				if(tileIDArray[(playerPosX/64)-1][playerPosY/64] == 2) {
+				if(tileIDArray[(playerPosX/64)-1][playerPosY/64] == 2 || tileIDArray[(playerPosX/64)-1][playerPosY/64] == 3) {
 					executingDirection = 0;
 					return true;
 				}
 				return false;
 			case 3:
-				if(tileIDArray[playerPosX/64][(playerPosY/64)+1] == 2) {
+				if(tileIDArray[playerPosX/64][(playerPosY/64)+1] == 2 || tileIDArray[playerPosX/64][(playerPosY/64)+1] == 3) {
 					executingDirection = 0;
 					return true;
 				}
 				return false;
 			case 4:
-				if(tileIDArray[(playerPosX/64)+1][playerPosY/64] == 2) {
+				if(tileIDArray[(playerPosX/64)+1][playerPosY/64] == 2 || tileIDArray[(playerPosX/64)+1][playerPosY/64] == 3) {
 					executingDirection = 0;
 					return true;
 				}

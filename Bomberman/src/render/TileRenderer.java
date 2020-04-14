@@ -46,6 +46,10 @@ public class TileRenderer {
 		devWallTile = ResourceLoader.ladeBild("/DevWall.png");
 		tileSet[2] = devWallTile;
 
+		BufferedImage crate = null;
+		crate = ResourceLoader.ladeBild("/Crate.png");
+		tileSet[3] = crate;
+		
 		//Load devTile2 into Memory
 		
 		
