@@ -2,7 +2,7 @@ package render;
 
 import java.awt.image.BufferedImage;
 
-
+//Tim
 
 public class AnimatedPlayerRenderer {
 

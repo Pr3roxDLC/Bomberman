@@ -13,6 +13,7 @@ public class PlayerRenderer {
 	boolean visible = true;
 	Image i = null;
 
+	//TIM
 
 	public void initPlayer() {
 		System.out.println("[Player Renderer]: Started Init Sequence");

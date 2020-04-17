@@ -7,10 +7,12 @@ import javax.imageio.ImageIO;
 public class ResourceLoader {
 
 	
+	//Tim & Moritz
+	
 	//100% Not Moritz's Resource Loader
 	
 	public static BufferedImage ladeBild(String path) {
-		try {
+		try { 
 			System.out.println("[ResourceLoader]: Moritz Resource Loader has Worked!");
 			return ImageIO.read(ResourceLoader.class.getResource(path));
 			

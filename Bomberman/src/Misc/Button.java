@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 
 import render.ResourceLoader;
 
+//TIM
+
 public class Button {
 	
 	public BufferedImage buttonTile = null;

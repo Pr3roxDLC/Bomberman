@@ -1,6 +1,7 @@
 package game;
 
-import java.util.Random;
+
+//LEO
 
 public class MapManager {
 	//30 auf 12
@@ -11,7 +12,7 @@ public class MapManager {
 		return tileIDArray;
 	}
 	
-	public void genCrates() {
+	public void genCrates(int chance) {
 		
 		for(int i = 0; i < 30; i++) {
 			for(int k = 0; k < 16; k++) {
@@ -20,7 +21,7 @@ public class MapManager {
 					
 					int random = (int) (Math.random() * 10);
 					
-					if (random % 2 == 0) {
+					if (random % chance == 0) {
 						
 						tileIDArray[i][k] = 3;
 						
@@ -33,6 +34,19 @@ public class MapManager {
 			
 		}
 		
+		for(int i = 0; i < 4; i++) {
+			for(int k = 0; k < 5; k++) {
+				
+				if(tileIDArray[i][k] == 3) {
+					
+					tileIDArray[i][k] = 0;
+					
+				}
+				
+			}
+			
+			
+		}
 		
 	}
 
