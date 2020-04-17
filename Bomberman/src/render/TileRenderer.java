@@ -52,7 +52,6 @@ public class TileRenderer {
 
   //Load devTile2 into Memory
 
-
   BufferedImage devTile2 = null;
   devTile2 = ResourceLoader.ladeBild("/Dev2.png");
   System.out.println("[Tile Remderer]: Loaded DevTile2");
