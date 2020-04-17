@@ -14,20 +14,24 @@ public class BombHandler implements KeyListener{
 	int playerPosX, playerPosY = 0;
 	public BufferedImage bombTile = ResourceLoader.ladeBild("/bomb.png");
 	public int stunTimer = 0;
+	int radius = 1;
 
 	public void incBombTimer() {
-		if(stunTimer < 0) {
+		if(stunTimer > 0) {
 
 			stunTimer--;
 
-		}else stunTimer = 0;
+		}
 
 		for(int i = 0; i < 16; i++) {
 
 			if(bombArray[i] != null) {
 
 				bombArray[i].incBombTimer();
-
+				if(bombArray[i].getUsed() == false) {
+					bombArray[i] = null;
+				}
+				
 			}
 
 		}
@@ -55,29 +59,39 @@ public class BombHandler implements KeyListener{
 
 
 	}
+	public void setRadius(int radius) {
+		
+		this.radius = radius;
+		
+	}
+	
+
+	
+	
 
 
 
 	public void keyPressed(KeyEvent e) {
 
 		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-
+System.out.println(stunTimer );
 			if(stunTimer == 0) {
 
 				for(int i = 0; i < 16; i++) {
 
-					if(bombArray[i] == null ) {
+					if(bombArray[i] == null && stunTimer == 0) {
 
-						bombArray[i] = new Bomb(Misc.Utils.RoundNumberToMultipleOf64(playerPosX), Misc.Utils.RoundNumberToMultipleOf64(playerPosY) );
-						stunTimer = 32;
+						bombArray[i] = new Bomb(Misc.Utils.RoundNumberToMultipleOf64(playerPosX), Misc.Utils.RoundNumberToMultipleOf64(playerPosY), radius );
+						System.out.println("Bomb");
+						stunTimer = 16;
 						return;
 
 					}
 
-					if(bombArray[i].getUsed() == false) {
-						bombArray[i] = new Bomb(Misc.Utils.RoundNumberToMultipleOf64(playerPosX), Misc.Utils.RoundNumberToMultipleOf64(playerPosY) );
- 
-						stunTimer = 32;
+					if(bombArray[i].getUsed() == false && stunTimer == 0) {
+						bombArray[i] = new Bomb(Misc.Utils.RoundNumberToMultipleOf64(playerPosX), Misc.Utils.RoundNumberToMultipleOf64(playerPosY), radius);
+						System.out.println("bomb");
+						stunTimer = 16;
 						return;
 
 					}

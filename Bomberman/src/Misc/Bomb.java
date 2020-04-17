@@ -1,12 +1,15 @@
 package Misc;
 
+import com.sun.glass.ui.TouchInputSupport;
+
 import game.ExplosionHandler;
 
 public class Bomb {
 
 	public boolean used = true;
-	int x, y = 0;
+	int x, y, radius = 0;
 	int timer = 0;
+	
 
 	public void incBombTimer() {
 
@@ -15,7 +18,7 @@ public class Bomb {
 			timer++;
 
 		}else {
-			ExplosionHandler.explode(x, y);
+			ExplosionHandler.explode(x, y, radius);
 			
 			used = false;
 			
@@ -52,10 +55,11 @@ public class Bomb {
 	
 	
 
-	public Bomb(int x, int y) {
+	public Bomb(int x, int y, int radius) {
 
 		this.x = x;
 		this.y = y;
+		this.radius = radius;
 
 
 	}

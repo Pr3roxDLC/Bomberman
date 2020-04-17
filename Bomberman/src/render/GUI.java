@@ -74,7 +74,7 @@ public class GUI extends JFrame implements Runnable {
 		mm.genCrates(2);
 		tr.setTileIDArray(mm.getTileIDArray());
 		pm.setTileIDArray(tr.getTileIDArray());
-		
+		bomb.setRadius(3);
 		ExplosionHandler.setTileIDArray(mm.getTileIDArray());
 		
 		
