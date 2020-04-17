@@ -35,7 +35,7 @@ public class TileRenderer {
   System.out.println("[Tile Renderer]: Started Init Sequence");
 
 
-  // Load devTile1 into Memory
+  // Load Floor into Memory
   BufferedImage devTile1 = null;
   devTile1 = ResourceLoader.ladeBild("/Floor.png");
   tileSet[0] = devTile1;
