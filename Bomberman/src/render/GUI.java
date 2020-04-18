@@ -33,6 +33,7 @@ public class GUI extends JFrame implements Runnable {
 	Misc.SecondCounter counter = new Misc.SecondCounter();
 	game.MapManager mm = new game.MapManager();
 	game.BombHandler bomb = new game.BombHandler();
+	game.EnemyMover eMover = new game.EnemyMover();
 
 	int currentFrame = 0;
 	private Image dbImage;
@@ -71,13 +72,17 @@ public class GUI extends JFrame implements Runnable {
 
 		mm.initWalls();
 		//Lower Number = Higher Chance of Crates Spawning
-		mm.genCrates(2);
+		mm.genCrates(3);
 		tr.setTileIDArray(mm.getTileIDArray());
 		pm.setTileIDArray(tr.getTileIDArray());
 		bomb.setRadius(3);
+		eMover.setTileIDArray(tr.getTileIDArray());
+		eMover.setAmmount(14);
+		eMover.spawnEnemies();
+		eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
 		ExplosionHandler.setTileIDArray(mm.getTileIDArray());
-		
-		
+
+
 		while(true) {
 			DevTile1.updateAnimation();
 			DevTile2.updateAnimation();
@@ -86,9 +91,11 @@ public class GUI extends JFrame implements Runnable {
 			bomb.incBombTimer();
 			pm.movePlayer();
 			tr.setTileIDArray(mm.getTileIDArray());
+			
 
 			playerRenderer.updatePlayer();
-
+			eMover.moveEnemies();
+			eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
 
 			repaint();
 			//System.out.println("[Frame]: "+ currentFrame++);
@@ -124,26 +131,39 @@ public class GUI extends JFrame implements Runnable {
 			//System.out.println(pm.getplayerDirection());
 			dbg.drawImage(playerRenderer.getPlayerTile(pm.getplayerDirection()), pm.getPlayerPosX(), pm.getPlayerPosY(), null);
 			//Draw Power-Ups --- Layer 2
-			
-			
-			
+
+
+
 			//Draw Enemies --- Layer 3 [Also Contains the Bomb]
 			for(int i = 0; i < 16; i++) {
 				if(bomb.getBombArray()[i] != null) {
 					if(bomb.getBombArray()[i].getUsed() == true) {
-					dbg.drawImage(bomb.getBombTile(), bomb.getBombArray()[i].getBombPosX(), bomb.getBombArray()[i].getBombPosY(), null);
+						dbg.drawImage(bomb.getBombTile(), bomb.getBombArray()[i].getBombPosX(), bomb.getBombArray()[i].getBombPosY(), null);
 					}
 				}
-				
-				
+
+
 			}
+
+			for(int i = 0; i < eMover.getAmmount(); i++) {
+
+				if(eMover.getEnemyFromArray(i) != null) {
+
+					dbg.drawImage(
+							eMover.getEnemyFromArray(i).getEnemyTile(), 
+							eMover.getEnemyFromArray(i).getX(), 
+							eMover.getEnemyFromArray(i).getY(),
+							null);
+				}
+			}
+
 
 
 
 			//Draw Effects --- Layer 4
 
 
-	
+
 
 
 			//Draw HUD --- Layer 5

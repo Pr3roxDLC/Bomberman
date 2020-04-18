@@ -15,6 +15,13 @@ public class Utils {
 		
 	}
 	
+	public static int random(int upper, int lower) {
+		
+		
+		return (int) (Math.random() * (upper - lower)) + lower;
+
+	}
+	
 	
 	
 	
