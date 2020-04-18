@@ -1,5 +1,7 @@
 package game;
 
+import render.ExplosionFX;
+
 public class ExplosionHandler {
 
 	public static int[][] tileIDArray = new int[30][16];
@@ -24,6 +26,8 @@ public class ExplosionHandler {
 
 		bombPosAsTilePosX = bombPosX / 64;
 		bombPosAsTilePosY = bombPosY / 64;
+		
+		ExplosionFX.addExplosion(bombPosAsTilePosX, bombPosAsTilePosY, radius);
 		endLoop = false;
 		//Check if explosion should be vertical			
 		for(int i = 0; i <= radius; i++) {

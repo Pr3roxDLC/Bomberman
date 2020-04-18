@@ -11,6 +11,7 @@ import render.ResourceLoader;
 public class BombHandler implements KeyListener{
 
 	public Bomb[] bombArray = new Bomb[16];
+	public int[][] tileIDArray = new int[30][16];
 	int playerPosX, playerPosY = 0;
 	public BufferedImage bombTile = ResourceLoader.ladeBild("/bomb.png");
 	public int stunTimer = 0;
@@ -28,21 +29,35 @@ public class BombHandler implements KeyListener{
 			if(bombArray[i] != null) {
 
 				bombArray[i].incBombTimer();
+				tileIDArray[bombArray[i].getBombPosX() / 64][bombArray[i].getBombPosY() / 64] = 4;
 				if(bombArray[i].getUsed() == false) {
+					tileIDArray[bombArray[i].getBombPosX() / 64][bombArray[i].getBombPosY() / 64] = 0;
 					bombArray[i] = null;
 				}
 				
 			}
 
 		}
+		
+		
 
 	}
+	
+	public int[][] updateTileIDArray() {
+		
+		return tileIDArray;		
+	}
+	
+	
 
 	public BufferedImage getBombTile() {
 		return bombTile;
 
 
 	}
+	
+	
+	
 
 	public Bomb[] getBombArray() {
 

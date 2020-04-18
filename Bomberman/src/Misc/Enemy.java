@@ -36,7 +36,7 @@ public class Enemy {
 			
 
 			dir = Misc.Utils.random(0, 4);
-			System.out.println(dir);
+			//System.out.println(dir);
 			isMoving = true;
 			int i = 0;
 			stepsLeft = stepsLeft - 16;
@@ -44,14 +44,14 @@ public class Enemy {
 			case 0:
 				while(tileIDArray[(x/64)][(y/64) - i] == 0) {
 					stepsLeft = stepsLeft + 16;
-					System.out.println("Checked Up");
+					//System.out.println("Checked Up");
 					i++;
 				}
 				break;
 			case 1:
 				while(tileIDArray[(x/64) + i][(y/64)] == 0) {
 					stepsLeft = stepsLeft + 16;
-					System.out.println("Checked Right");
+				//	System.out.println("Checked Right");
 					i++;
 				}
 				break;
@@ -59,7 +59,7 @@ public class Enemy {
 			case 2:
 				while(tileIDArray[(x/64)][(y/64) + i] == 0) {
 					stepsLeft = stepsLeft + 16;
-					System.out.println("Checked Down");
+				//	System.out.println("Checked Down");
 					i++;
 				}
 				break;
@@ -67,7 +67,7 @@ public class Enemy {
 			case 3:
 				while(tileIDArray[(x/64) - i][(y/64)] == 0) {
 					stepsLeft = stepsLeft + 16;
-					System.out.println("Checked Left");
+				//	System.out.println("Checked Left");
 					i++;
 				}
 				break;
@@ -76,7 +76,7 @@ public class Enemy {
 			default:
 				while(tileIDArray[(x/64)][(y/64) - i] == 0) {
 					stepsLeft = stepsLeft + 16;
-					System.out.println("Checked Down");
+				//	System.out.println("Checked Down");
 					i++;
 				}
 				break;
@@ -85,7 +85,7 @@ public class Enemy {
 		}
 		if(stepsLeft > 0) {
 			
-			System.out.println("Tried Moving");
+		//	System.out.println("Tried Moving");
 			switch(dir) {
 			case 0:
 				y = y - 4;

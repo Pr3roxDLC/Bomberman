@@ -70,7 +70,7 @@ public class EnemyMover {
 			int randX = (int) Misc.Utils.random(27, 1);
 			int randY = (int) Misc.Utils.random(15, 1);
 			int randTile = (int) Misc.Utils.random(0, 3);
-			System.out.println(i);
+		//	System.out.println(i);
 			if(tileIDArray[randX][randY] == 0) {
 
 				enemyArray[i] = new Enemy(randX * 64, randY * 64, randTile);

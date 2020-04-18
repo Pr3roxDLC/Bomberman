@@ -34,22 +34,22 @@ public class GUI extends JFrame implements Runnable {
 	game.MapManager mm = new game.MapManager();
 	game.BombHandler bomb = new game.BombHandler();
 	game.EnemyMover eMover = new game.EnemyMover();
-
+	public ExplosionFX explosionFX = new ExplosionFX();
+	
 	int currentFrame = 0;
 	private Image dbImage;
 	private Graphics dbg;
 	public String playerDirection = "W";
 
 	//All Testing Objects, Variables, ... go here
-	public String[] DevAnimationArray = {"FlameTile1.png", "FlameTile2.png", "FlameTile3.png", "FlameTile4.png", "FlameTile5.png", "FlameTile6.png", "FlameTile7.png", "FlameTile8.png"};
+	//All the Paths to the Tiles used by the AnimatedPlayerRenderer
 	public String[] PlayerFacingSouthTile = {"/anim/player/PlayerSpriteSouth1.png","/anim/player/PlayerSpriteSouth2.png","/anim/player/PlayerSpriteSouth3.png"};
 	public String[] PlayerFacingNorthTile = {"/anim/player/PlayerSpriteNorth1.png","/anim/player/PlayerSpriteNorth2.png","/anim/player/PlayerSpriteNorth3.png"};
 	public String[] PlayerFacingWestTile = {"/anim/player/PlayerSpriteWest1.png","/anim/player/PlayerSpriteWest2.png","/anim/player/PlayerSpriteWest3.png"};
 	public String[] PlayerFacingEastTile = {"/anim/player/PlayerSpriteEast1.png","/anim/player/PlayerSpriteEast2.png","/anim/player/PlayerSpriteEast3.png"};
+	
 	AnimatedPlayerRenderer playerRenderer = new AnimatedPlayerRenderer(PlayerFacingSouthTile, PlayerFacingNorthTile, PlayerFacingEastTile, PlayerFacingWestTile, 4);
-	AnimatedTile DevTile1 = new AnimatedTile(DevAnimationArray, 4);
-	AnimatedTile DevTile2 = new AnimatedTile(DevAnimationArray, 4);
-
+	
 
 
 
@@ -62,6 +62,9 @@ public class GUI extends JFrame implements Runnable {
 		f.start();
 
 	}
+	
+	
+
 
 	public void run() {
 
@@ -72,27 +75,26 @@ public class GUI extends JFrame implements Runnable {
 
 		mm.initWalls();
 		//Lower Number = Higher Chance of Crates Spawning
-		mm.genCrates(3);
+		mm.genCrates(10);
 		tr.setTileIDArray(mm.getTileIDArray());
 		pm.setTileIDArray(tr.getTileIDArray());
 		bomb.setRadius(3);
 		eMover.setTileIDArray(tr.getTileIDArray());
-		eMover.setAmmount(14);
+		eMover.setAmmount(10);
 		eMover.spawnEnemies();
 		eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
 		ExplosionHandler.setTileIDArray(mm.getTileIDArray());
 
 
 		while(true) {
-			DevTile1.updateAnimation();
-			DevTile2.updateAnimation();
+			
 			counter.updateCounter();
 			bomb.setPlayerPos(pm.getPlayerPosX(), pm.getPlayerPosY());
 			bomb.incBombTimer();
 			pm.movePlayer();
 			tr.setTileIDArray(mm.getTileIDArray());
 			
-
+			
 			playerRenderer.updatePlayer();
 			eMover.moveEnemies();
 			eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
@@ -162,7 +164,14 @@ public class GUI extends JFrame implements Runnable {
 
 			//Draw Effects --- Layer 4
 
-
+			for(int i = 0; i < 30; i++) {
+				for(int j = 0; j < 16; j++) {
+					
+					dbg.drawImage(ExplosionFX.getFXTile(ExplosionFX.getFXTileArray()[i][j]), i * 64, j * 64, null);
+					
+				}
+				
+			}
 
 
 

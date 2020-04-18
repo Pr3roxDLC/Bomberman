@@ -40,6 +40,11 @@ public class TileRenderer {
   devTile1 = ResourceLoader.ladeBild("/Floor.png");
   tileSet[0] = devTile1;
   System.out.println("[Tile Remderer]: Loaded DevTile1");
+  
+  BufferedImage floorWithBomb = null;
+  floorWithBomb = ResourceLoader.ladeBild("/Floor.png");
+  tileSet[4] = floorWithBomb;
+  System.out.println("[Tile Remderer]: Loaded FloorWithBombTile");
 
   //Load Wall into memory
   BufferedImage devWallTile = null;
