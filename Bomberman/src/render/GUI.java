@@ -75,12 +75,12 @@ public class GUI extends JFrame implements Runnable {
 
 		mm.initWalls();
 		//Lower Number = Higher Chance of Crates Spawning
-		mm.genCrates(10);
+		mm.genCrates(3);
 		tr.setTileIDArray(mm.getTileIDArray());
 		pm.setTileIDArray(tr.getTileIDArray());
 		bomb.setRadius(3);
 		eMover.setTileIDArray(tr.getTileIDArray());
-		eMover.setAmmount(10);
+		eMover.setAmmount(3);
 		eMover.spawnEnemies();
 		eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
 		ExplosionHandler.setTileIDArray(mm.getTileIDArray());
@@ -98,7 +98,7 @@ public class GUI extends JFrame implements Runnable {
 			playerRenderer.updatePlayer();
 			eMover.moveEnemies();
 			eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
-
+			ExplosionFX.updateFX();
 			repaint();
 			//System.out.println("[Frame]: "+ currentFrame++);
 			try {
