@@ -54,6 +54,10 @@ public class TileRenderer {
   BufferedImage crate = null;
   crate = ResourceLoader.ladeBild("/Crate.png");
   tileSet[3] = crate;
+  
+  BufferedImage exitTile = null;
+  exitTile = ResourceLoader.ladeBild("/Exit Tile.png");
+  tileSet[5] = exitTile;
 
   //Load devTile2 into Memory
 

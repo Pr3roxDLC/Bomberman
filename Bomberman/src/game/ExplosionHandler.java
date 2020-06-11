@@ -19,7 +19,7 @@ public class ExplosionHandler {
 
 	public static void explode(int bombPosX, int bombPosY, int radius) {
 
-		System.err.println("Called");
+		//System.err.println("Called");
 
 		int bombPosAsTilePosX, bombPosAsTilePosY = 0;
 		int down = 0, up = 0, left = 0, right = 0;

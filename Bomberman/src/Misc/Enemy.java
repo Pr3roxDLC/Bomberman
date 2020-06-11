@@ -26,66 +26,106 @@ public class Enemy {
 	public void moveEnemy() {
 
 		if(stepsLeft <= 0) {
-			
+
 			isMoving = false;
-			
+
 		}
-		
+
 		if(isMoving == false) {
-			
-			
+
+
 
 			dir = Misc.Utils.random(0, 4);
 			//System.out.println(dir);
 			isMoving = true;
 			int i = 0;
+
+			boolean shouldContinue = true;
 			stepsLeft = stepsLeft - 16;
+
+
 			switch (dir) {
 			case 0:
-				while(tileIDArray[(x/64)][(y/64) - i] == 0) {
-					stepsLeft = stepsLeft + 16;
-					//System.out.println("Checked Up");
-					i++;
+
+				while(shouldContinue == true) {
+					if((y/64) - (i + 1) >= 0) {
+						if(tileIDArray[(x/64)][(y/64) - i] == 0) {
+							stepsLeft = stepsLeft + 16;
+							//System.out.println("Checked Up");
+							i++;
+						}else {
+
+							shouldContinue = false;
+
+						}
+					}else {
+						shouldContinue = false;
+					}
 				}
 				break;
 			case 1:
-				while(tileIDArray[(x/64) + i][(y/64)] == 0) {
-					stepsLeft = stepsLeft + 16;
-				//	System.out.println("Checked Right");
-					i++;
+				while(shouldContinue == true) {
+					if((x/64) + (i + 1) < 30) {
+						if(tileIDArray[(x/64) + i][(y/64)] == 0) {
+							stepsLeft = stepsLeft + 16;
+							//	System.out.println("Checked Right");
+							i++;
+						}else {shouldContinue = false;}
+					}else {shouldContinue = false;}
 				}
 				break;
 
 			case 2:
-				while(tileIDArray[(x/64)][(y/64) + i] == 0) {
-					stepsLeft = stepsLeft + 16;
-				//	System.out.println("Checked Down");
-					i++;
-				}
+
+				while(shouldContinue == true) {
+					if((y/64) + (i + 1) < 15) {
+						if(tileIDArray[(x/64)][(y/64) + i] == 0) {
+							stepsLeft = stepsLeft + 16;
+							//	System.out.println("Checked Down");
+							i++;
+						}else {shouldContinue = false;}
+							
+						}else {shouldContinue = false;}
+					}
+				
 				break;
 
 			case 3:
-				while(tileIDArray[(x/64) - i][(y/64)] == 0) {
-					stepsLeft = stepsLeft + 16;
-				//	System.out.println("Checked Left");
-					i++;
+				while(shouldContinue == true) {
+					if((x/64) - (i + 1) > 0) {
+						if(tileIDArray[(x/64) - i][(y/64)] == 0) {
+							stepsLeft = stepsLeft + 16;
+							//	System.out.println("Checked Right");
+							i++;
+						}else {shouldContinue = false;}
+					}else {shouldContinue = false;}
 				}
 				break;
 
 
 			default:
-				while(tileIDArray[(x/64)][(y/64) - i] == 0) {
-					stepsLeft = stepsLeft + 16;
-				//	System.out.println("Checked Down");
-					i++;
+				while(shouldContinue == true) {
+					if((y/64) - (i + 1) >= 0) {
+						if(tileIDArray[(x/64)][(y/64) - i] == 0) {
+							stepsLeft = stepsLeft + 16;
+							//System.out.println("Checked Up");
+							i++;
+						}else {
+
+							shouldContinue = false;
+
+						}
+					}else {
+						shouldContinue = false;
+					}
 				}
 				break;
 			}
 
 		}
 		if(stepsLeft > 0) {
-			
-		//	System.out.println("Tried Moving");
+
+			//	System.out.println("Tried Moving");
 			switch(dir) {
 			case 0:
 				y = y - 4;
@@ -113,10 +153,10 @@ public class Enemy {
 			}
 
 		}
-		
-			
-			
-	
+
+
+
+
 
 
 	}

@@ -1,7 +1,5 @@
 package Misc;
 
-import com.sun.glass.ui.TouchInputSupport;
-
 import game.ExplosionHandler;
 
 public class Bomb {

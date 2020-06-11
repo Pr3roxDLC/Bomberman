@@ -5,13 +5,15 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import game.BombHandler;
+import Misc.LevelLoader;
 import game.ExplosionHandler;
+import game.PlayerDeathTiles;
 
 import java.awt.Color;
 
@@ -37,6 +39,7 @@ public class GUI extends JFrame implements Runnable {
 	public ExplosionFX explosionFX = new ExplosionFX();
 	
 	int currentFrame = 0;
+	
 	private Image dbImage;
 	private Graphics dbg;
 	public String playerDirection = "W";
@@ -63,42 +66,102 @@ public class GUI extends JFrame implements Runnable {
 
 	}
 	
+	public void loadNextLevel() {
+		
+		game.MapManager.initWalls();
+		game.MapManager.remCrates();
+		game.MapManager.genCrates(4);
+		bomb.setRadius(1);
+		bomb.setMaxBombs(1);
+		eMover.setAmmount(8);
+		eMover.spawnEnemies();
+		eMover.setTileIDArray(tr.getTileIDArray());
+		eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
+		game.LevelEnd.resetLevelEnd();
+		pm.setPlayerPos(64, 128);
+		
+		game.LevelEnd.textSize = 75;
+
+		
+	}
 	
-
-
-	public void run() {
+	
+	public void loadGame() {
+		
 
 		tr.initTiles();
 		pr.initPlayer();
 		hr.initHud();
 
 
-		mm.initWalls();
+		game.MapManager.initWalls();
 		//Lower Number = Higher Chance of Crates Spawning
-		mm.genCrates(3);
-		tr.setTileIDArray(mm.getTileIDArray());
+		game.MapManager.genCrates(3);
+		
+		tr.setTileIDArray(game.MapManager.getTileIDArray());
 		pm.setTileIDArray(tr.getTileIDArray());
-		bomb.setRadius(3);
+		
+		//Set Radius Of the BombExplosions
+		bomb.setRadius(1);
+		bomb.setMaxBombs(1);
 		eMover.setTileIDArray(tr.getTileIDArray());
-		eMover.setAmmount(3);
+		
+		//Set The Amount of Enemies to Spawn in
+		eMover.setAmmount(8);
 		eMover.spawnEnemies();
 		eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
-		ExplosionHandler.setTileIDArray(mm.getTileIDArray());
+		ExplosionHandler.setTileIDArray(game.MapManager.getTileIDArray());
+		
+			try {
+				LevelLoader.writeLevelJSONs();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	
+
+		
+	}
+	
+	
 
 
+	public void run() {
+
+		loadGame();
+		
 		while(true) {
 			
 			counter.updateCounter();
 			bomb.setPlayerPos(pm.getPlayerPosX(), pm.getPlayerPosY());
 			bomb.incBombTimer();
 			pm.movePlayer();
-			tr.setTileIDArray(mm.getTileIDArray());
+			tr.setTileIDArray(game.MapManager.getTileIDArray());
+			
 			
 			
 			playerRenderer.updatePlayer();
 			eMover.moveEnemies();
 			eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
 			ExplosionFX.updateFX();
+			PlayerDeathTiles.addEnemiesToDeathArray(eMover.getEnemyArray());
+			PlayerDeathTiles.addExplosionsToDeathArray(ExplosionFX.getFXTileArray());
+			PlayerDeathTiles.playerIsOnDeathTile(pm.getPlayerPosX(), pm.getPlayerPosY());
+			eMover.checkColWithExplosion(ExplosionFX.getFXTileArray());
+			game.LevelEnd.setTileIDArrayForLevelEnd(tr.getTileIDArray());
+			game.LevelEnd.livingEnemies = eMover.getNumberOfLivingEnemies();
+			game.LevelEnd.checkForLevelEnd();
+			game.LevelEnd.setPlayerPosForLevelEnd(pm.getPlayerPosX(), pm.getPlayerPosY());
+			game.LevelEnd.checkForPlayerColWithEndTile();
+			tr.setTileIDArray(game.LevelEnd.getTileIdArray());
+			
+			if(game.LevelEnd.opacity == 1F) {
+				
+				loadNextLevel();
+				game.LevelEnd.opacity = 0F;
+				
+			}
+			
 			repaint();
 			//System.out.println("[Frame]: "+ currentFrame++);
 			try {
@@ -184,6 +247,9 @@ public class GUI extends JFrame implements Runnable {
 			for (int i = 0; i<30; i++) {
 				dbg.drawImage(hr.getHudTile(), (i * 64), (0 * 64), null);
 			}
+			
+			
+			
 
 
 
@@ -191,7 +257,22 @@ public class GUI extends JFrame implements Runnable {
 			dbg.setFont(new Font("Stencil", 1, 75));
 			dbg.drawString("Score: " + Integer.toString(hr.getScore()), 64, 56);
 			dbg.drawString("Time: " + Integer.toString( 500 - counter.getTimeSinceGameHasStartedInSecs()), 960, 56);
-
+			
+			if(game.LevelEnd.getPlayerIsTouchingEndTile() == true) {
+			dbg.setFont(new Font("Stencil", 1, game.LevelEnd.getTextSize()));
+			
+			game.LevelEnd.updateTextSize();
+			
+			int width = dbg.getFontMetrics().stringWidth("Level Complete!");
+			
+			
+			dbg.drawString("Level Complete!", this.getWidth()/2 - width/2, this.getHeight()/2);
+			
+			dbg.setColor(new Color(0, 0, 0, game.LevelEnd.getUpdatedOpacity()));
+			
+			dbg.fillRect(0, 0, this.getWidth(), this.getHeight());
+			
+			}
 			//Draw Pre Buffered Image onto Screen, all layers combined
 			g.drawImage(dbImage, 8, 32, null);
 

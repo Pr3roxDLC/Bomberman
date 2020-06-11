@@ -6,13 +6,33 @@ package game;
 public class MapManager {
 	//30 auf 12
 
-	public int[][] tileIDArray = new int[30][16]; 
+	public static int[][] tileIDArray = new int[30][16]; 
 
-	public int[][] getTileIDArray() {
+	public static int[][] getTileIDArray() {
 		return tileIDArray;
 	}
 	
-	public void genCrates(int chance) {
+	public static void remCrates() {
+		
+		for(int i = 0; i < 30; i++) {
+			for(int k = 0; k < 16; k++) {
+				
+				if(tileIDArray[i][k] == 3) {
+					
+					tileIDArray[i][k] = 0;
+						
+					}
+					
+				}
+				
+			}
+			
+			
+		}
+		
+	
+	
+	public static void genCrates(int chance) {
 		
 		for(int i = 0; i < 30; i++) {
 			for(int k = 0; k < 16; k++) {
@@ -50,7 +70,7 @@ public class MapManager {
 		
 	}
 
-	public void initWalls() {
+	public static void initWalls() {
 		for (int i = 0; i<30; i++) {
 			tileIDArray[i][1] = 2;
 			tileIDArray[i][15] = 2;
