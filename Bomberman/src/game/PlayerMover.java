@@ -19,6 +19,7 @@ public class PlayerMover implements KeyListener {
 	// current steps between tiles
 	int stepCounter = 0;
 	int collisionTileX, collisionTileY;
+	public boolean blockPlayerInputs = false;
 
 
 	/*
@@ -26,8 +27,8 @@ public class PlayerMover implements KeyListener {
 	 * Wird bspw d gedrückt, läuft er ein ganzes Teil nach recht, egal was danach gedrückt wird
 	 */
 
-	
-	
+
+
 	public int getTileID(int xPos, int yPos) {
 		return tileIDArray[xPos][yPos];
 	}
@@ -129,27 +130,43 @@ public class PlayerMover implements KeyListener {
 	}
 
 	public void setPlayerPos(int x, int y) {
-		
+
 		playerPosX = x;
 		playerPosY = y;
 		executingDirection = 0;
+
+	}
+	
+	public void setBlockPlayerInputs(boolean bool) {
+		
+		blockPlayerInputs = bool;
+		
+		bDown = false;
+		bUp = false;
+		bLeft = false;
+		bRight = false;
+		executingDirection = 0;
+		stepCount = 0;
+		stepCounter = 0;
 		
 	}
 
 
 
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			bDown = true;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			bUp = true;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			bRight = true;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			bLeft = true;
+		if(!blockPlayerInputs) {
+			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				bDown = true;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				bUp = true;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				bRight = true;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				bLeft = true;
+			}
 		}
 	}
 

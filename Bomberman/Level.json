@@ -1,1 +1,1 @@
-{"level1":{"enemies":"5","boxSpawnrate":3}}
+{"level4":{"maxbombs":"4","enemies":"5","boxSpawnrate":3,"radius":"4"},"level1":{"maxbombs":"1","enemies":"5","boxSpawnrate":3,"radius":"1"},"level3":{"maxbombs":"3","enemies":"5","boxSpawnrate":3,"radius":"3"},"level2":{"maxbombs":"2","enemies":"5","boxSpawnrate":3,"radius":"2"}}

@@ -51,6 +51,9 @@ public class GUI extends JFrame implements Runnable {
 	public String[] PlayerFacingWestTile = {"/anim/player/PlayerSpriteWest1.png","/anim/player/PlayerSpriteWest2.png","/anim/player/PlayerSpriteWest3.png"};
 	public String[] PlayerFacingEastTile = {"/anim/player/PlayerSpriteEast1.png","/anim/player/PlayerSpriteEast2.png","/anim/player/PlayerSpriteEast3.png"};
 	
+	public String[] levelNames = {"level1","level2","level3", "level4"};
+	int levelID = 0;
+	
 	AnimatedPlayerRenderer playerRenderer = new AnimatedPlayerRenderer(PlayerFacingSouthTile, PlayerFacingNorthTile, PlayerFacingEastTile, PlayerFacingWestTile, 4);
 	
 
@@ -68,30 +71,37 @@ public class GUI extends JFrame implements Runnable {
 	
 	public void loadNextLevel() {
 		
+		pm.setBlockPlayerInputs(false);
+		
 		game.MapManager.initWalls();
 		game.MapManager.remCrates();
-		game.MapManager.genCrates(4);
-		bomb.setRadius(1);
-		bomb.setMaxBombs(1);
-		eMover.setAmmount(8);
+		game.MapManager.genCrates(				Misc.LevelLoader.getLevelData(levelID)[0] );
+		bomb.setRadius(							Misc.LevelLoader.getLevelData(levelID)[2] );
+		bomb.setMaxBombs(						Misc.LevelLoader.getLevelData(levelID)[3] );
+		eMover.setAmmount(						Misc.LevelLoader.getLevelData(levelID)[1] );
 		eMover.spawnEnemies();
 		eMover.setTileIDArray(tr.getTileIDArray());
 		eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
 		game.LevelEnd.resetLevelEnd();
+		
+		
+	
 		pm.setPlayerPos(64, 128);
 		
 		game.LevelEnd.textSize = 75;
 
-		
+		levelID++;
 	}
 	
 	
-	public void loadGame() {
+	public void loadGame() throws IOException {
 		
 
 		tr.initTiles();
 		pr.initPlayer();
 		hr.initHud();
+		
+		//LevelLoader.writeLevelJSONs();
 
 
 		game.MapManager.initWalls();
@@ -107,18 +117,12 @@ public class GUI extends JFrame implements Runnable {
 		eMover.setTileIDArray(tr.getTileIDArray());
 		
 		//Set The Amount of Enemies to Spawn in
-		eMover.setAmmount(8);
+		eMover.setAmmount(1);
 		eMover.spawnEnemies();
 		eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
 		ExplosionHandler.setTileIDArray(game.MapManager.getTileIDArray());
 		
-			try {
-				LevelLoader.writeLevelJSONs();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-	
+		
 
 		
 	}
@@ -128,7 +132,12 @@ public class GUI extends JFrame implements Runnable {
 
 	public void run() {
 
-		loadGame();
+		try {
+			loadGame();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		while(true) {
 			
@@ -260,7 +269,7 @@ public class GUI extends JFrame implements Runnable {
 			
 			if(game.LevelEnd.getPlayerIsTouchingEndTile() == true) {
 			dbg.setFont(new Font("Stencil", 1, game.LevelEnd.getTextSize()));
-			
+			pm.setBlockPlayerInputs(true);
 			game.LevelEnd.updateTextSize();
 			
 			int width = dbg.getFontMetrics().stringWidth("Level Complete!");

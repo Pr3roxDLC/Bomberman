@@ -1,6 +1,5 @@
 package game;
 
-import render.TileRenderer;
 
 public class LevelEnd {
 
@@ -75,7 +74,9 @@ public class LevelEnd {
 
 		hasLevelEnded = false;
 		playerIsTouchingEndTile = false;
-		tileIDArray[currentLevelEndTileX][currentLevelEndTileY] = 0;		
+		tileIDArray[currentLevelEndTileX][currentLevelEndTileY] = 0;	
+		xPos = 0;
+		yPos = 0;
 	}
 
 	public static boolean getPlayerIsTouchingEndTile() {

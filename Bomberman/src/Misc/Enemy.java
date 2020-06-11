@@ -48,7 +48,7 @@ public class Enemy {
 			case 0:
 
 				while(shouldContinue == true) {
-					if((y/64) - (i + 1) >= 0) {
+					if((y/64) - i >= 0) {
 						if(tileIDArray[(x/64)][(y/64) - i] == 0) {
 							stepsLeft = stepsLeft + 16;
 							//System.out.println("Checked Up");
@@ -65,7 +65,7 @@ public class Enemy {
 				break;
 			case 1:
 				while(shouldContinue == true) {
-					if((x/64) + (i + 1) < 30) {
+					if((x/64) + i < 30) {
 						if(tileIDArray[(x/64) + i][(y/64)] == 0) {
 							stepsLeft = stepsLeft + 16;
 							//	System.out.println("Checked Right");
@@ -78,7 +78,7 @@ public class Enemy {
 			case 2:
 
 				while(shouldContinue == true) {
-					if((y/64) + (i + 1) < 15) {
+					if((y/64) + i < 15) {
 						if(tileIDArray[(x/64)][(y/64) + i] == 0) {
 							stepsLeft = stepsLeft + 16;
 							//	System.out.println("Checked Down");
@@ -92,7 +92,7 @@ public class Enemy {
 
 			case 3:
 				while(shouldContinue == true) {
-					if((x/64) - (i + 1) > 0) {
+					if((x/64) - i > 0) {
 						if(tileIDArray[(x/64) - i][(y/64)] == 0) {
 							stepsLeft = stepsLeft + 16;
 							//	System.out.println("Checked Right");
@@ -105,7 +105,7 @@ public class Enemy {
 
 			default:
 				while(shouldContinue == true) {
-					if((y/64) - (i + 1) >= 0) {
+					if((y/64) - i >= 0) {
 						if(tileIDArray[(x/64)][(y/64) - i] == 0) {
 							stepsLeft = stepsLeft + 16;
 							//System.out.println("Checked Up");

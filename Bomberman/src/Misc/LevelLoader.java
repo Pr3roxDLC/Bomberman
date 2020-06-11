@@ -1,47 +1,32 @@
 package Misc;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import org.json.JSONObject;
+
 
 public class LevelLoader {
 	
-  
-	
-	public static void writeLevelJSONs()  throws IOException{
-		List<String> level =  new ArrayList<String>(); 
-		
-		
-		
-		JSONObject LevelJsonObj = new JSONObject();
-		
-		JSONObject Level1 = new JSONObject();
-		JSONObject Level2 = new JSONObject();
-		JSONObject Level3 = new JSONObject();
-		JSONObject Level4 = new JSONObject();
-		
-		Level1.put("boxSpawnrate", 3);
-		Level1.put("enemies", "5");
-		
-		Level2.put("boxSpawnrate", 3);
-		Level2.put("enemies", "5");
-		
-		Level3.put("boxSpawnrate", 3);
-		Level3.put("enemies", "5");
-		
-		Level4.put("boxSpawnrate", 3);
-		Level4.put("enemies", "5");
-		
-		LevelJsonObj.put("level1", Level1);
-				
-	    Files.write(Paths.get("Level.json"), LevelJsonObj.toString().getBytes());
+	public static int[] levelData = new int[4];
 
+	public static int[] boxSpawnrate = {3, 2, 4, 5, 2, 6, 10, 10};
+	public static int[] enemies =  {8, 8, 12, 12, 14, 14, 16, 16};
+	public static int[] radius = {1, 1, 2, 2, 3, 3, 4, 4};
+	public static int[] maxBombs = {1, 2, 3, 4, 5, 6, 7, 8};
+	
+	
+	public static int[] getLevelData(int levelCount) {
+		
+		levelData[0] = boxSpawnrate[levelCount];
+		levelData[1] = enemies[levelCount];
+		levelData[2] = radius[levelCount];
+		levelData[3] = maxBombs[levelCount];
+		
+		return levelData;
 		
 	}
 	
+	
+
+	
+  
 	
 	
 	public LevelLoader() {
