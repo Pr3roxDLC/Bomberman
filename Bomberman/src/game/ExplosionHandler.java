@@ -30,7 +30,7 @@ public class ExplosionHandler {
 
 
 		endLoop = false;
-		//Check if explosion should be vertical			
+		//Determine the length of the explosion in each direction		
 		for(int i = 0; i <= radius; i++) {
 			if(bombPosAsTilePosX - i < 30) {
 				right = i;
