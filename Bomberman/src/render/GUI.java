@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Misc.LevelLoader;
 import game.ExplosionHandler;
 import game.PlayerDeathTiles;
 
@@ -37,9 +36,9 @@ public class GUI extends JFrame implements Runnable {
 	game.BombHandler bomb = new game.BombHandler();
 	game.EnemyMover eMover = new game.EnemyMover();
 	public ExplosionFX explosionFX = new ExplosionFX();
-	
+
 	int currentFrame = 0;
-	
+
 	private Image dbImage;
 	private Graphics dbg;
 	public String playerDirection = "W";
@@ -50,12 +49,12 @@ public class GUI extends JFrame implements Runnable {
 	public String[] PlayerFacingNorthTile = {"/anim/player/PlayerSpriteNorth1.png","/anim/player/PlayerSpriteNorth2.png","/anim/player/PlayerSpriteNorth3.png"};
 	public String[] PlayerFacingWestTile = {"/anim/player/PlayerSpriteWest1.png","/anim/player/PlayerSpriteWest2.png","/anim/player/PlayerSpriteWest3.png"};
 	public String[] PlayerFacingEastTile = {"/anim/player/PlayerSpriteEast1.png","/anim/player/PlayerSpriteEast2.png","/anim/player/PlayerSpriteEast3.png"};
-	
+
 	public String[] levelNames = {"level1","level2","level3", "level4"};
 	int levelID = 0;
-	
+
 	AnimatedPlayerRenderer playerRenderer = new AnimatedPlayerRenderer(PlayerFacingSouthTile, PlayerFacingNorthTile, PlayerFacingEastTile, PlayerFacingWestTile, 4);
-	
+
 
 
 
@@ -68,13 +67,14 @@ public class GUI extends JFrame implements Runnable {
 		f.start();
 
 	}
-	
+	//Calls some of the methods from loadGame() with new Parameters for the new level
 	public void loadNextLevel() {
-		
+
 		pm.setBlockPlayerInputs(false);
-		
+
 		game.MapManager.initWalls();
 		game.MapManager.remCrates();
+		//TODO Make the fancy JSON Data Loader
 		game.MapManager.genCrates(				Misc.LevelLoader.getLevelData(levelID)[0] );
 		bomb.setRadius(							Misc.LevelLoader.getLevelData(levelID)[2] );
 		bomb.setMaxBombs(						Misc.LevelLoader.getLevelData(levelID)[3] );
@@ -83,51 +83,51 @@ public class GUI extends JFrame implements Runnable {
 		eMover.setTileIDArray(tr.getTileIDArray());
 		eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
 		game.LevelEnd.resetLevelEnd();
-		
-		
-	
+
+
+
 		pm.setPlayerPos(64, 128);
-		
+
 		game.LevelEnd.textSize = 75;
 
 		levelID++;
 	}
-	
-	
+
+	//Initializes the first level, some methods only need to be called when loading the first level
 	public void loadGame() throws IOException {
-		
+
 
 		tr.initTiles();
 		pr.initPlayer();
 		hr.initHud();
-		
+
 		//LevelLoader.writeLevelJSONs();
 
 
 		game.MapManager.initWalls();
 		//Lower Number = Higher Chance of Crates Spawning
 		game.MapManager.genCrates(3);
-		
+
 		tr.setTileIDArray(game.MapManager.getTileIDArray());
 		pm.setTileIDArray(tr.getTileIDArray());
-		
+
 		//Set Radius Of the BombExplosions
 		bomb.setRadius(1);
 		bomb.setMaxBombs(1);
 		eMover.setTileIDArray(tr.getTileIDArray());
-		
+
 		//Set The Amount of Enemies to Spawn in
 		eMover.setAmmount(1);
 		eMover.spawnEnemies();
 		eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
 		ExplosionHandler.setTileIDArray(game.MapManager.getTileIDArray());
-		
-		
 
-		
+
+
+
 	}
-	
-	
+
+
 
 
 	public void run() {
@@ -135,42 +135,59 @@ public class GUI extends JFrame implements Runnable {
 		try {
 			loadGame();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
-		
+		//Main Game  Loop Everything in here gets called each frame the game renderes
 		while(true) {
-			
+			//Update the Second Counter on the top of the Screen
 			counter.updateCounter();
+
+			//Relay the Player Position to the bomb object
 			bomb.setPlayerPos(pm.getPlayerPosX(), pm.getPlayerPosY());
 			bomb.incBombTimer();
+			//Moves the player, all the collision checking with walls etc gets done here
 			pm.movePlayer();
+
+			//Relay the MapManagers tileIDArray to the TileRenderer
 			tr.setTileIDArray(game.MapManager.getTileIDArray());
-			
-			
-			
+
+
+
 			playerRenderer.updatePlayer();
+
+			//Calls the moveEnemy method for each Enemy
 			eMover.moveEnemies();
+
+			//Relays the tileIDArray to each Enemy
 			eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
+
 			ExplosionFX.updateFX();
+
+			//This Block Handles the Collision of the enemies and the player with the Explosions
 			PlayerDeathTiles.addEnemiesToDeathArray(eMover.getEnemyArray());
 			PlayerDeathTiles.addExplosionsToDeathArray(ExplosionFX.getFXTileArray());
 			PlayerDeathTiles.playerIsOnDeathTile(pm.getPlayerPosX(), pm.getPlayerPosY());
 			eMover.checkColWithExplosion(ExplosionFX.getFXTileArray());
+
+			//This Block does several checks to determine if the LevelEndTile should be generates
+			//and if the Level Transition should start.
 			game.LevelEnd.setTileIDArrayForLevelEnd(tr.getTileIDArray());
 			game.LevelEnd.livingEnemies = eMover.getNumberOfLivingEnemies();
 			game.LevelEnd.checkForLevelEnd();
 			game.LevelEnd.setPlayerPosForLevelEnd(pm.getPlayerPosX(), pm.getPlayerPosY());
 			game.LevelEnd.checkForPlayerColWithEndTile();
 			tr.setTileIDArray(game.LevelEnd.getTileIdArray());
-			
+
+
+			//Level Transition is done my drawing a filled rectangle with an increasing opacity
 			if(game.LevelEnd.opacity == 1F) {
-				
+
 				loadNextLevel();
 				game.LevelEnd.opacity = 0F;
-				
+
 			}
-			
+
 			repaint();
 			//System.out.println("[Frame]: "+ currentFrame++);
 			try {
@@ -238,11 +255,11 @@ public class GUI extends JFrame implements Runnable {
 
 			for(int i = 0; i < 30; i++) {
 				for(int j = 0; j < 16; j++) {
-					
+
 					dbg.drawImage(ExplosionFX.getFXTile(ExplosionFX.getFXTileArray()[i][j]), i * 64, j * 64, null);
-					
+
 				}
-				
+
 			}
 
 
@@ -256,9 +273,9 @@ public class GUI extends JFrame implements Runnable {
 			for (int i = 0; i<30; i++) {
 				dbg.drawImage(hr.getHudTile(), (i * 64), (0 * 64), null);
 			}
-			
-			
-			
+
+
+
 
 
 
@@ -266,21 +283,22 @@ public class GUI extends JFrame implements Runnable {
 			dbg.setFont(new Font("Stencil", 1, 75));
 			dbg.drawString("Score: " + Integer.toString(hr.getScore()), 64, 56);
 			dbg.drawString("Time: " + Integer.toString( 500 - counter.getTimeSinceGameHasStartedInSecs()), 960, 56);
-			
+
 			if(game.LevelEnd.getPlayerIsTouchingEndTile() == true) {
-			dbg.setFont(new Font("Stencil", 1, game.LevelEnd.getTextSize()));
-			pm.setBlockPlayerInputs(true);
-			game.LevelEnd.updateTextSize();
-			
-			int width = dbg.getFontMetrics().stringWidth("Level Complete!");
-			
-			
-			dbg.drawString("Level Complete!", this.getWidth()/2 - width/2, this.getHeight()/2);
-			
-			dbg.setColor(new Color(0, 0, 0, game.LevelEnd.getUpdatedOpacity()));
-			
-			dbg.fillRect(0, 0, this.getWidth(), this.getHeight());
-			
+				
+				dbg.setFont(new Font("Stencil", 1, game.LevelEnd.getTextSize()));
+				pm.setBlockPlayerInputs(true);
+				game.LevelEnd.updateTextSize();
+
+				int width = dbg.getFontMetrics().stringWidth("Level Complete!");
+
+
+				dbg.drawString("Level Complete!", this.getWidth()/2 - width/2, this.getHeight()/2);
+
+				dbg.setColor(new Color(0, 0, 0, game.LevelEnd.getUpdatedOpacity()));
+
+				dbg.fillRect(0, 0, this.getWidth(), this.getHeight());
+
 			}
 			//Draw Pre Buffered Image onto Screen, all layers combined
 			g.drawImage(dbImage, 8, 32, null);
