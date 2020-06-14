@@ -43,7 +43,7 @@ public class EnemyMover {
 		return enemyArray;
 
 	}
-	
+
 	public void checkColWithExplosion(int[][] FXArray) {
 
 		for(int i = 0; i < 16; i++) {

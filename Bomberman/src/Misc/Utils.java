@@ -3,8 +3,6 @@ package Misc;
 
 //Tim
 
-
-//Class Created to hold Utility Methods that get used alot
 public class Utils {
 
 	

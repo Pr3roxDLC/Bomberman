@@ -7,10 +7,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
 
+import javax.swing.DefaultDesktopManager;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Misc.MainMenu;
 import game.ExplosionHandler;
 import game.PlayerDeathTiles;
 
@@ -67,14 +69,13 @@ public class GUI extends JFrame implements Runnable {
 		f.start();
 
 	}
-	//Calls some of the methods from loadGame() with new Parameters for the new level
+
 	public void loadNextLevel() {
 
 		pm.setBlockPlayerInputs(false);
 
 		game.MapManager.initWalls();
 		game.MapManager.remCrates();
-		//TODO Make the fancy JSON Data Loader
 		game.MapManager.genCrates(				Misc.LevelLoader.getLevelData(levelID)[0] );
 		bomb.setRadius(							Misc.LevelLoader.getLevelData(levelID)[2] );
 		bomb.setMaxBombs(						Misc.LevelLoader.getLevelData(levelID)[3] );
@@ -93,7 +94,7 @@ public class GUI extends JFrame implements Runnable {
 		levelID++;
 	}
 
-	//Initializes the first level, some methods only need to be called when loading the first level
+
 	public void loadGame() throws IOException {
 
 
@@ -117,61 +118,37 @@ public class GUI extends JFrame implements Runnable {
 		eMover.setTileIDArray(tr.getTileIDArray());
 
 		//Set The Amount of Enemies to Spawn in
-		eMover.setAmmount(1);
+		eMover.setAmmount(8);
 		eMover.spawnEnemies();
 		eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
 		ExplosionHandler.setTileIDArray(game.MapManager.getTileIDArray());
+		MainMenu.initMainMenu();
 
 
 
 
 	}
 
+	public void updateGame() {
 
+		if(MainMenu.getLevelPaused() == false) {
 
-
-	public void run() {
-
-		try {
-			loadGame();
-		} catch (IOException e1) {
-			
-			e1.printStackTrace();
-		}
-		//Main Game  Loop Everything in here gets called each frame the game renderes
-		while(true) {
-			//Update the Second Counter on the top of the Screen
 			counter.updateCounter();
-
-			//Relay the Player Position to the bomb object
 			bomb.setPlayerPos(pm.getPlayerPosX(), pm.getPlayerPosY());
 			bomb.incBombTimer();
-			//Moves the player, all the collision checking with walls etc gets done here
 			pm.movePlayer();
-
-			//Relay the MapManagers tileIDArray to the TileRenderer
 			tr.setTileIDArray(game.MapManager.getTileIDArray());
 
 
 
 			playerRenderer.updatePlayer();
-
-			//Calls the moveEnemy method for each Enemy
 			eMover.moveEnemies();
-
-			//Relays the tileIDArray to each Enemy
 			eMover.setEnemyTileIDArrayForEachEnemy(tr.getTileIDArray());
-
 			ExplosionFX.updateFX();
-
-			//This Block Handles the Collision of the enemies and the player with the Explosions
 			PlayerDeathTiles.addEnemiesToDeathArray(eMover.getEnemyArray());
 			PlayerDeathTiles.addExplosionsToDeathArray(ExplosionFX.getFXTileArray());
 			PlayerDeathTiles.playerIsOnDeathTile(pm.getPlayerPosX(), pm.getPlayerPosY());
 			eMover.checkColWithExplosion(ExplosionFX.getFXTileArray());
-
-			//This Block does several checks to determine if the LevelEndTile should be generates
-			//and if the Level Transition should start.
 			game.LevelEnd.setTileIDArrayForLevelEnd(tr.getTileIDArray());
 			game.LevelEnd.livingEnemies = eMover.getNumberOfLivingEnemies();
 			game.LevelEnd.checkForLevelEnd();
@@ -179,14 +156,32 @@ public class GUI extends JFrame implements Runnable {
 			game.LevelEnd.checkForPlayerColWithEndTile();
 			tr.setTileIDArray(game.LevelEnd.getTileIdArray());
 
-
-			//Level Transition is done my drawing a filled rectangle with an increasing opacity
 			if(game.LevelEnd.opacity == 1F) {
 
 				loadNextLevel();
 				game.LevelEnd.opacity = 0F;
 
 			}
+		}
+
+		MainMenu.updateMainMenu();
+
+
+	}
+
+
+	public void run() {
+
+		try {
+			loadGame();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		while(true) {
+
+			updateGame();
 
 			repaint();
 			//System.out.println("[Frame]: "+ currentFrame++);
@@ -275,7 +270,22 @@ public class GUI extends JFrame implements Runnable {
 			}
 
 
-
+			if(MainMenu.getLevelPaused() == true) {
+				int i = 0;
+				
+				if(MainMenu.getButtonFromArray(i) != null) {
+					
+					dbg.fill3DRect(		MainMenu.getButtonFromArray(i).getPosX(),
+										MainMenu.getButtonFromArray(i).getPosY(),
+										MainMenu.getButtonFromArray(i).getWidth(),
+										MainMenu.getButtonFromArray(i).getHeight(),
+										false);
+					dbg.setColor(new Color(255, 255,255));
+					dbg.drawString(MainMenu.getButtonFromArray(i).getText(), MainMenu.getButtonFromArray(i).getPosX() - (MainMenu.getButtonFromArray(i).getWidth()/2) + dbg.getFontMetrics().stringWidth(MainMenu.getButtonFromArray(i).getText())  , MainMenu.getButtonFromArray(i).getPosY() + dbg.getFont().getSize());
+					dbg.setColor(new Color(0, 0, 0));
+				}
+				
+			}
 
 
 
@@ -285,7 +295,6 @@ public class GUI extends JFrame implements Runnable {
 			dbg.drawString("Time: " + Integer.toString( 500 - counter.getTimeSinceGameHasStartedInSecs()), 960, 56);
 
 			if(game.LevelEnd.getPlayerIsTouchingEndTile() == true) {
-				
 				dbg.setFont(new Font("Stencil", 1, game.LevelEnd.getTextSize()));
 				pm.setBlockPlayerInputs(true);
 				game.LevelEnd.updateTextSize();
@@ -325,6 +334,7 @@ public class GUI extends JFrame implements Runnable {
 		setVisible(true);
 		addKeyListener(pm);
 		addKeyListener(bomb);
+		addMouseListener(new MainMenu());
 	}
 
 }

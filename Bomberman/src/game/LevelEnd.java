@@ -111,7 +111,7 @@ public class LevelEnd {
 		return opacity;
 	}
 
-	//Generates the Level Exit tile at a random free tile
+
 	public static void genLevelEndTile() {
 
 		System.out.println("[LevelEnd]: Generating Level End Tile!");
