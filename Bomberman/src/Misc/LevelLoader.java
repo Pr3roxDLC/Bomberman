@@ -30,7 +30,7 @@ public class LevelLoader {
 	
 	
 	public LevelLoader() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 }

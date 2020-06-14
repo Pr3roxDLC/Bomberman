@@ -4,6 +4,7 @@ package render;
 import java.awt.image.BufferedImage;
 
 //Tim
+//TODO Add Support for different Screen Sizes
 
 public class TileRenderer {
 

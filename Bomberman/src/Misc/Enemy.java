@@ -22,7 +22,8 @@ public class Enemy {
 
 	}
 
-
+	//This Function gets called each fram for each enemy from the EnemyMover Class 
+	//to move the enemy or to generate a new path.
 	public void moveEnemy() {
 
 		if(stepsLeft <= 0) {
@@ -183,7 +184,7 @@ public class Enemy {
 
 
 
-
+	// Each Enemy gets assigned one of 3 Possible textures.
 	public Enemy(int x, int y, int enemyTileID) {
 
 		this.x = x;

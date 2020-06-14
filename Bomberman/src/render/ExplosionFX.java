@@ -13,18 +13,13 @@ public class ExplosionFX {
 	//Returns an Array of TileIDs corresponding to the Tiles Needed for the Explosion FX
 	public static int[][] addExplosion(int offsetX, int offsetY, int lengthDown, int lengthUp, int lengthLeft, int lengthRight) {
 
-		//System.out.println(offsetX);
-		//System.out.println(offsetY);
-		//System.out.println(lengthUp + " " + lengthDown + " " + lengthRight + " " + lengthLeft);
 
 
 
 
 
 
-
-
-
+		//Determines at what cords what parts of the explosions should be shown.
 		for(int i = 0; i < lengthUp; i++) {
 
 			FXTileArray[offsetX][offsetY + i] = 1;
@@ -69,6 +64,8 @@ public class ExplosionFX {
 		timeSinceTileHasBeenCreated[offsetX][offsetY] = 0;
 
 
+		//Uncomment this to see the Explosion FX Array printed out
+		
 //		for(int i = 0; i < 16; i++) {
 //			for(int j = 0; j < 30; j++) {
 //
